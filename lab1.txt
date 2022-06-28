@@ -15,4 +15,4 @@ cd .azdevops && docker-compose up -d # Avaliar docker-compose build
 docker run --network lab1-network -d -p 8080:80 --name poi -e "SQL_PASSWORD=$SQL_PASSWORD" -e "SQL_SERVER=$SQL_SERVER" -e "ASPNETCORE_ENVIRONMENT=Local" tripinsights/poi:1.0
 
 
------
+---- asdasdasd-
