@@ -1,0 +1,18 @@
+Criação da VM
+ssh na VM
+----------------------------------------------------------------
+docker pull mcr.microsoft.com/mssql/server:2017-latest
+docker login registryolq8408.azurecr.io (user: registryolq8408 e senha: p1S9/d1QrcqJ1TKXVaAJoNNzCOorKmRq)
+docker tag mcr.microsoft.com/mssql/server:2017-latest registryolq8408.azurecr.io/data-load:1.0
+docker push registryolq8408.azurecr.io/data-load:1.0
+docker network create lab1-network
+export SQL_PASSWORD="YourStrong@Passw0rd" SQL_SERVER="sql-server"
+docker run -d --name sql-server --network lab1-network -e "ACCEPT_EULA=Y" -e MSSQL_SA_PASSWORD=$SQL_PASSWORD -e "SA_PASSWORD=$SQL_PASSWORD" -e "MSSQL_PID=Express" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2017-latest
+docker run -d --name data-load --network lab1-network -e SQLFQDN=$SQL_SERVER -e SQLUSER=sa -e SQLPASS=$SQL_PASSWORD -e SQLDB=mydrivingDB registryolq8408.azurecr.io/dataload:1.0
+
+#docker build -f dockerfiles/Dockerfile_3 -t "registryolq8408.azurecr.io/tripinsights/poi:1.0" ./src/poi
+cd .azdevops && docker-compose up -d # Avaliar docker-compose build 
+docker run --network lab1-network -d -p 8080:80 --name poi -e "SQL_PASSWORD=$SQL_PASSWORD" -e "SQL_SERVER=$SQL_SERVER" -e "ASPNETCORE_ENVIRONMENT=Local" tripinsights/poi:1.0
+
+
+-----

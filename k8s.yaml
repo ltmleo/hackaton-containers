@@ -1,0 +1,172 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: poi
+  labels:
+    app: poi
+spec:
+  containers:
+    - name: poi
+      image: registryolq8408.azurecr.io/tripinsights/poi:1.0
+      ports:
+        - containerPort: 80
+      env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: local
+        - name: SQL_SERVER
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_SERVER
+        - name: SQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_PASSWORD
+        - name: SQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_USER
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: poi
+spec:
+  type: LoadBalancer
+  selector:
+    app: poi
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: trips
+  labels:
+    app: trips
+spec:
+  containers:
+    - name: trips
+      image: registryolq8408.azurecr.io/tripinsights/trips:1.0
+      ports:
+        - containerPort: 80
+      env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: local
+        - name: SQL_SERVER
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_SERVER
+        - name: SQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_PASSWORD
+        - name: SQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_USER
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: trips
+spec:
+  type: LoadBalancer
+  selector:
+    app: trips
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: userprofile
+  labels:
+    app: userprofile
+spec:
+  containers:
+    - name: userprofile
+      image: registryolq8408.azurecr.io/tripinsights/userprofile:1.0
+      ports:
+        - containerPort: 80
+      env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: local
+        - name: SQL_SERVER
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_SERVER
+        - name: SQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_PASSWORD
+        - name: SQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_USER
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: userprofile
+spec:
+  type: LoadBalancer
+  selector:
+    app: userprofile
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tripviewer
+  labels:
+    app: tripviewer
+spec:
+  containers:
+    - name: tripviewer
+      image: registryolq8408.azurecr.io/tripinsights/tripviewer:1.0
+      ports:
+        - containerPort: 80
+      env:
+        - name: USERPROFILE_API_ENDPOINT
+          value: http://userprofile
+        - name: TRIPS_API_ENDPOINT
+          value: http://trips
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tripviewer
+spec:
+  type: LoadBalancer
+  selector:
+    app: tripviewer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secret
+type: Opaque
+data:
+  SQL_SERVER: c3Fsc2VydmVyb2xxODQwOC5kYXRhYmFzZS53aW5kb3dzLm5ldA==
+  SQL_PASSWORD: U1FMQWRtaW5AMTIz
+  SQL_USER: c3FsYWRtaW5vTHE4NDA4
