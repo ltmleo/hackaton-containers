@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 REGISTRY="registryolq8408.azurecr.io"
 
