@@ -1,0 +1,2 @@
+az feature register --name EnablePodIdentityPreview --namespace Microsoft.ContainerService
+https://docs.microsoft.com/en-us/azure/aks/use-azure-ad-pod-identity
