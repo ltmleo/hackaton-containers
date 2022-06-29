@@ -51,7 +51,7 @@ metadata:
   namespace: api
 spec:
   type: ExternalName
-  externalName: poi.api
+  externalName: poi.api.svc.cluster.local
   selector:
     app: poi
   ports:
@@ -96,7 +96,7 @@ metadata:
   namespace: api
 spec:
   type: ExternalName
-  externalName: trips.api
+  externalName: trips.api.svc.cluster.local
   selector:
     app: trips
   ports:
@@ -141,7 +141,7 @@ metadata:
   namespace: api
 spec:
   type: ExternalName
-  externalName: user-java.api
+  externalName: user-java.api.svc.cluster.local
   selector:
     app: user-java
   ports:
@@ -186,7 +186,7 @@ metadata:
   namespace: api
 spec:
   type: ExternalName
-  externalName: userprofile.api
+  externalName: userprofile.api.svc.cluster.local
   selector:
     app: userprofile
   ports:
@@ -220,7 +220,7 @@ metadata:
   namespace: api
 spec:
   type: ExternalName
-  externalName: tripviewer.api
+  externalName: tripviewer.api.svc.cluster.local
   selector:
     app: tripviewer
   ports:

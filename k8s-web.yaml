@@ -29,7 +29,7 @@ metadata:
   namespace: web
 spec:
   type: ExternalName
-  externalName: tripviewer.web
+  externalName: tripviewer.web.svc.cluster.local
   selector:
     app: tripviewer
   ports:
