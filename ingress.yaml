@@ -2,35 +2,33 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: tripinsights-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   ingressClassName: nginx
   rules:
   - http:
       paths:
-      - path: /api/user/.*
+      - path: /api/user/healthcheck
         pathType: Prefix
         backend:
           service:
             name: userprofile
             port:
               number: 80
-      - path: /api/user-java/.*
+      - path: /api/user-java/healthcheck
         pathType: Prefix
         backend:
           service:
             name: user-java
             port:
               number: 80
-      - path: /api/trips/.*
+      - path: /api/trips/healthcheck
         pathType: Prefix
         backend:
           service:
             name: trips
             port:
               number: 80
-      - path: /api/poi/.*
+      - path: /api/poi/healthcheck
         pathType: Prefix
         backend:
           service:
