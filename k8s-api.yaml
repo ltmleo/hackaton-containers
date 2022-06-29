@@ -50,7 +50,8 @@ metadata:
   name: poi
   namespace: api
 spec:
-  type: ClusterIP
+  type: ExternalName
+  externalName: poi.api
   selector:
     app: poi
   ports:
@@ -94,7 +95,8 @@ metadata:
   name: trips
   namespace: api
 spec:
-  type: ClusterIP
+  type: ExternalName
+  externalName: trips.api
   selector:
     app: trips
   ports:
@@ -138,7 +140,8 @@ metadata:
   name: user-java
   namespace: api
 spec:
-  type: ClusterIP
+  type: ExternalName
+  externalName: user-java.api
   selector:
     app: user-java
   ports:
@@ -182,7 +185,8 @@ metadata:
   name: userprofile
   namespace: api
 spec:
-  type: ClusterIP
+  type: ExternalName
+  externalName: userprofile.api
   selector:
     app: userprofile
   ports:
@@ -215,7 +219,8 @@ metadata:
   name: tripviewer
   namespace: api
 spec:
-  type: ClusterIP
+  type: ExternalName
+  externalName: tripviewer.api
   selector:
     app: tripviewer
   ports:

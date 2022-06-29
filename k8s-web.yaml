@@ -28,7 +28,8 @@ metadata:
   name: tripviewer
   namespace: web
 spec:
-  type: ClusterIP
+  type: ExternalName
+  externalName: tripviewer.web
   selector:
     app: tripviewer
   ports:
