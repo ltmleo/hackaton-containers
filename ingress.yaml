@@ -21,6 +21,13 @@ spec:
             name: user-java
             port:
               number: 80
+      - path: /api/docs/user-java
+        pathType: Prefix
+        backend:
+          service:
+            name: user-java
+            port:
+              number: 80
       - path: /api/trips
         pathType: Prefix
         backend:
@@ -29,6 +36,13 @@ spec:
             port:
               number: 80
       - path: /api/poi
+        pathType: Prefix
+        backend:
+          service:
+            name: poi
+            port:
+              number: 80
+      - path: /api/docs/poi
         pathType: Prefix
         backend:
           service:
