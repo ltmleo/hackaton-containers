@@ -3,10 +3,13 @@ kind: Ingress
 metadata:
   name: tripinsights-ingress
   namespace: api
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
 spec:
   ingressClassName: nginx
   rules:
-  - http:
+  - host: e11343c2e62a4eada347.brazilsouth.aksapp.io
+    http:
       paths:
       - path: /api/user
         pathType: Prefix

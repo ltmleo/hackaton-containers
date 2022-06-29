@@ -4,7 +4,7 @@ metadata:
   name: api-dev-user-full-access
   namespace: api
 rules:
-- apiGroups: ["", "extensions", "apps"]
+- apiGroups: ["*"]
   resources: ["*"]
   verbs: ["*"]
 - apiGroups: ["batch"]
