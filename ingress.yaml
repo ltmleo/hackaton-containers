@@ -7,28 +7,28 @@ spec:
   rules:
   - http:
       paths:
-      - path: /api/user/healthcheck
+      - path: /api/user
         pathType: Prefix
         backend:
           service:
             name: userprofile
             port:
               number: 80
-      - path: /api/user-java/healthcheck
+      - path: /api/user-java
         pathType: Prefix
         backend:
           service:
             name: user-java
             port:
               number: 80
-      - path: /api/trips/healthcheck
+      - path: /api/trips
         pathType: Prefix
         backend:
           service:
             name: trips
             port:
               number: 80
-      - path: /api/poi/healthcheck
+      - path: /api/poi
         pathType: Prefix
         backend:
           service:
