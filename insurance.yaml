@@ -15,13 +15,21 @@ spec:
         app: insurance
     spec:
       containers:
-      - image: "replaceme.io/insurance:1.0"
+      - image: "registryolq8408.azurecr.io/insurance:1.0"
         imagePullPolicy: Always
         name: insurance
         ports:
         - containerPort: 8081
           name: http
           protocol: TCP
+        resources:
+            requests:
+              cpu: 50m
+              memory: 50Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
+
 ---
 apiVersion: v1
 kind: Service
