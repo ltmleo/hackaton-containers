@@ -16,3 +16,41 @@ docker run --network lab1-network -d -p 8080:80 --name poi -e "SQL_PASSWORD=$SQL
 
 
 ---- asdasdasd-
+
+
+LAB1
+
+docker pull mcr.microsoft.com/mssql/server:2017-latest
+
+docker network create hack-lab1-network
+
+docker run --network hack-lab1-network -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=SQLAdmin@123" -p 1433:1433 --name sqlserver --hostname sqlserver -d mcr.microsoft.com/mssql/server:2017-latest
+
+docker exec -it sqlserver bash
+cd /opt/mssql-tools/bin/
+
+./sqlcmd -S sqlserver -U SA -P SQLAdmin@123 
+
+
+CREATE DATABASE mydrivingDB;
+GO
+CREATE LOGIN sqladmin WITH PASSWORD = 'SQLAdmin@123';
+GO 
+USE mydrivingDB;
+GO  
+CREATE USER sqladmin FOR LOGIN sqladmin;
+GO
+ALTER SERVER ROLE sysadmin ADD MEMBER sqladmin;
+GO
+
+
+
+docker run --network hack-lab1-network -e "SQLFQDN=sqlserver" -e "SQLUSER=sqladmin" -e "SQLPASS=SQLAdmin@123" -e "SQLDB=mydrivingDB" registryolq8408.azurecr.io/dataload:1.0
+
+
+
+
+docker run --network hack-lab1-network -d -p 8080:80 --name poi -e "SQL_PASSWORD=SQLAdmin@123" -e "SQL_SERVER=sqlserver" -e "ASPNETCORE_ENVIRONMENT=Local" registryolq8408.azurecr.io/tripinsights/poi:1.0
+
+
+curl -i -X GET 'http://localhost:8080/api/poi'

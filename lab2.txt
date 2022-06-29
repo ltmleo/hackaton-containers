@@ -1,0 +1,7 @@
+LAB2
+
+sqlserverolq8408.database.windows.net
+
+sqladminoLq8408
+
+SQLAdmin@123
