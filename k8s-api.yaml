@@ -1,0 +1,225 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: api
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secret
+  namespace: api
+type: Opaque
+data:
+  SQL_SERVER: c3Fsc2VydmVyb2xxODQwOC5kYXRhYmFzZS53aW5kb3dzLm5ldA==
+  SQL_PASSWORD: U1FMQWRtaW5AMTIz
+  SQL_USER: c3FsYWRtaW5vTHE4NDA4
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: poi
+  namespace: api
+  labels:
+    app: poi
+spec:
+  containers:
+    - name: poi
+      image: registryolq8408.azurecr.io/tripinsights/poi:1.0
+      ports:
+        - containerPort: 80
+      env:
+        - name: SQL_SERVER
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_SERVER
+        - name: SQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_PASSWORD
+        - name: SQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_USER
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: poi
+  namespace: api
+spec:
+  type: ClusterIP
+  selector:
+    app: poi
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: trips
+  namespace: api
+  labels:
+    app: trips
+spec:
+  containers:
+    - name: trips
+      image: registryolq8408.azurecr.io/tripinsights/trips:1.0
+      ports:
+        - containerPort: 80
+      env:
+        - name: SQL_SERVER
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_SERVER
+        - name: SQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_PASSWORD
+        - name: SQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_USER
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: trips
+  namespace: api
+spec:
+  type: ClusterIP
+  selector:
+    app: trips
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: user-java
+  namespace: api
+  labels:
+    app: user-java
+spec:
+  containers:
+    - name: user-java
+      image: registryolq8408.azurecr.io/tripinsights/user-java:1.0
+      ports:
+        - containerPort: 80
+      env:
+        - name: SQL_SERVER
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_SERVER
+        - name: SQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_PASSWORD
+        - name: SQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_USER
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-java
+  namespace: api
+spec:
+  type: ClusterIP
+  selector:
+    app: user-java
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: userprofile
+  namespace: api
+  labels:
+    app: userprofile
+spec:
+  containers:
+    - name: userprofile
+      image: registryolq8408.azurecr.io/tripinsights/userprofile:1.0
+      ports:
+        - containerPort: 80
+      env:
+        - name: SQL_SERVER
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_SERVER
+        - name: SQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_PASSWORD
+        - name: SQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: SQL_USER
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: userprofile
+  namespace: api
+spec:
+  type: ClusterIP
+  selector:
+    app: userprofile
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tripviewer
+  namespace: api
+  labels:
+    app: tripviewer
+spec:
+  containers:
+    - name: tripviewer
+      image: registryolq8408.azurecr.io/tripinsights/tripviewer:1.0
+      ports:
+        - containerPort: 80
+      env:
+        - name: USERPROFILE_API_ENDPOINT
+          value: http://userprofile
+        - name: TRIPS_API_ENDPOINT
+          value: http://trips
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tripviewer
+  namespace: api
+spec:
+  type: ClusterIP
+  selector:
+    app: tripviewer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+

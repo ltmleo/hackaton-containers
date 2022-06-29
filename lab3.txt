@@ -1,0 +1,7 @@
+LAB3
+
+Criar grupos do AAD e associar os devidos membros
+
+
+Referencias
+https://docs.microsoft.com/en-us/azure/aks/azure-ad-rbac
