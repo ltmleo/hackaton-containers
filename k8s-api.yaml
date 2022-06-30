@@ -164,7 +164,9 @@ metadata:
   name: userprofile
   namespace: api
   labels:
-    app: userprofile
+    app: userprofile  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
 spec:
   containers:
     - name: userprofile
