@@ -84,7 +84,7 @@ metadata:
   namespace: api
 spec:
   gateways:
-  - general-ssl.istio-system.svc.cluster.local
+  - general/istio-system
   hosts:
   - "*"
   http:
