@@ -6,6 +6,7 @@ metadata:
   labels:
     app: wcfservice
     role: web
+    version: v1
 spec:
   replicas: 1
   selector:
@@ -16,6 +17,7 @@ spec:
       labels:
         app: wcfservice
         role: web
+        version: v1
     spec:
       containers:
         - name: tripviewer
@@ -40,3 +42,42 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  generation: 1
+  labels:
+    app: wcfservice
+  name: wcfservice
+  namespace: web
+spec:
+  host: wcfservice
+  subsets:
+  - labels:
+      version: v1
+    name: v1
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  labels:
+    app: wcfservice
+  name: wcfservice
+  namespace: web
+spec:
+  gateways:
+  - istio-system/general
+  hosts:
+  - wcfservice
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: wcfservice
+        subset: v1

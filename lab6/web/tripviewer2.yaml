@@ -6,6 +6,7 @@ metadata:
   labels:
     app: tripviewer
     role: web
+    version: v1
 spec:
   replicas: 1
   selector:
@@ -16,6 +17,7 @@ spec:
       labels:
         app: tripviewer
         role: web
+        version: v1
     spec:
       containers:
         - name: tripviewer
@@ -47,3 +49,42 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  generation: 1
+  labels:
+    app: tripviewer
+  name: tripviewer
+  namespace: web
+spec:
+  host: tripviewer
+  subsets:
+  - labels:
+      version: v1
+    name: v1
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  labels:
+    app: tripviewer
+  name: tripviewer
+  namespace: api
+spec:
+  gateways:
+  - istio-system/general
+  hosts:
+  - "*"
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: tripviewer
+        subset: v1
