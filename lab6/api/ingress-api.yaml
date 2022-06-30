@@ -6,7 +6,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: e11343c2e62a4eada347.brazilsouth.aksapp.io
+  - host: 1d2649edc22b4ec4a722.eastus.aksapp.io
     http:
       paths:
       - path: /api/user
