@@ -17,6 +17,8 @@ spec:
         app: tripviewer
         role: web
     spec:
+      securityContext:
+        allowPrivilegeEscalation: false
       containers:
         - name: tripviewer
           image: registryolq8408.azurecr.io/tripinsights/tripviewer:1.0
@@ -41,4 +43,3 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-      

@@ -17,6 +17,8 @@ spec:
         app: poi
         role: api
     spec:
+      securityContext:
+        allowPrivilegeEscalation: false
       containers:
         - name: poi
           image: registryolq8408.azurecr.io/tripinsights/poi:1.0

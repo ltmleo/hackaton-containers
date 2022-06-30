@@ -17,6 +17,8 @@ spec:
         app: trips
         role: api
     spec:
+      securityContext:
+        allowPrivilegeEscalation: false
       containers:
         - name: trips
           image: registryolq8408.azurecr.io/tripinsights/trips:1.0
