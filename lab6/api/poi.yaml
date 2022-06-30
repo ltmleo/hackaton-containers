@@ -5,11 +5,13 @@ metadata:
   name: poi
   labels:
     app: poi
+    role: api
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: poi
+      role: api
   template:
     metadata:
       labels:
@@ -66,5 +68,5 @@ spec:
     - namespaceSelector: {}
       podSelector:
         matchLabels:
-          app: web
+          app: tripviewer
           role: web
