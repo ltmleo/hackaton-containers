@@ -6,6 +6,7 @@ metadata:
   labels:
     app: user-java
     role: api
+    version: v1
 spec:
   replicas: 1
   selector:
@@ -16,6 +17,7 @@ spec:
       labels:
         app: user-java
         role: api
+        version: v1
     spec:
       containers:
         - name: user-java
@@ -56,3 +58,42 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  generation: 1
+  labels:
+    app: user-java
+  name: user-java
+  namespace: user-java
+spec:
+  host: user-java
+  subsets:
+  - labels:
+      version: v1
+    name: v1
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  labels:
+    app: user-java
+  name: user-java
+  namespace: api
+spec:
+  gateways:
+  - istio-system/general
+  hosts:
+  - "*"
+  http:
+  - match:
+    - uri:
+        prefix: /api/user-java
+    route:
+    - destination:
+        host: user-java
+        subset: v1

@@ -6,6 +6,7 @@ metadata:
   labels:
     app: trips
     role: api
+    version: v1
 spec:
   replicas: 1
   selector:
@@ -16,6 +17,7 @@ spec:
       labels:
         app: trips
         role: api
+        version: v1
     spec:
       containers:
         - name: trips
@@ -56,3 +58,42 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  generation: 1
+  labels:
+    app: trips
+  name: trips
+  namespace: api
+spec:
+  host: trips
+  subsets:
+  - labels:
+      version: v1
+    name: v1
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  labels:
+    app: trips
+  name: trips
+  namespace: api
+spec:
+  gateways:
+  - istio-system/general
+  hosts:
+  - "*"
+  http:
+  - match:
+    - uri:
+        prefix: /api/trips
+    route:
+    - destination:
+        host: trips
+        subset: v1
