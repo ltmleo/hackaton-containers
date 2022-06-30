@@ -1,46 +1,41 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tripviewer
+  name: wcfservice
   namespace: web
   labels:
-    app: tripviewer
+    app: wcfservice
     role: web
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tripviewer
+      app: wcfservice
   template:
     metadata:
       labels:
-        app: tripviewer
+        app: wcfservice
         role: web
     spec:
       containers:
         - name: tripviewer
-          image: registryolq8408.azurecr.io/tripviewer2:1.0
+          image: registryolq8408.azurecr.io/wcfservice:1.0
           ports:
             - containerPort: 80
-          env:
-            - name: USERPROFILE_API_ENDPOINT
-              value: http://userprofile.api
-            - name: TRIPS_API_ENDPOINT
-              value: http://trips.api
           securityContext:
             allowPrivilegeEscalation: false
       nodeSelector:
-        kubernetes.io/os: linux
+        kubernetes.io/os: windows
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: tripviewer
+  name: wcfservice
   namespace: web
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
-    app: tripviewer
+    app: wcfservice
   ports:
     - protocol: TCP
       port: 80
