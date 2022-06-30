@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poi
+  labels:
+    app: poi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: poi
+  template:
+    spec:
+      containers:
+        - name: poi
+          image: registryolq8408.azurecr.io/tripinsights/poi:1.0
+          resources:
+              limits:
+                cpu: 500m
+                memory: 1Gi
+          ports:
+            - containerPort: 80
+          env:
+            - name: SQL_SERVER
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret-vault
+                  key: SQL_SERVER
+            - name: SQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret-vault
+                  key: SQL_PASSWORD
+            - name: SQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret-vault
+                  key: SQL_USER
+          volumeMounts:
+          - name: secrets-store-inline
+            mountPath: "/mnt/secrets-store"
+            readOnly: true
+      volumes:
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "azure-kv-open-hack-user-msi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: poi
+  namespace: api
+spec:
+  type: ClusterIP
+  selector:
+    app: poi
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

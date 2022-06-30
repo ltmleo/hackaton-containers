@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-java
+  namespace: api
+  labels:
+    app: user-java
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-java
+  template:
+    spec:
+      containers:
+        - name: user-java
+          image: registryolq8408.azurecr.io/tripinsights/user-java:1.0
+          resources:
+              limits:
+                cpu: 500m
+                memory: 1Gi
+          ports:
+            - containerPort: 80
+          env:
+            - name: SQL_SERVER
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret-vault
+                  key: SQL_SERVER
+            - name: SQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret-vault
+                  key: SQL_PASSWORD
+            - name: SQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret-vault
+                  key: SQL_USER
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-java
+  namespace: api
+spec:
+  type: ClusterIP
+  selector:
+    app: user-java
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
