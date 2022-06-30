@@ -11,6 +11,9 @@ spec:
     matchLabels:
       app: userprofile
   template:
+    metadata:
+      labels:
+        app: userprofile
     spec:
       containers:
         - name: userprofile

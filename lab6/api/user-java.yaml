@@ -11,6 +11,9 @@ spec:
     matchLabels:
       app: user-java
   template:
+    metadata:
+      labels:
+        app: user-java
     spec:
       containers:
         - name: user-java

@@ -11,6 +11,9 @@ spec:
     matchLabels:
       app: tripviewer
   template:
+    metadata:
+      labels:
+        app: tripviewer
     spec:
       containers:
         - name: tripviewer

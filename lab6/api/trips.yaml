@@ -11,6 +11,9 @@ spec:
     matchLabels:
       app: trips
   template:
+    metadata:
+      labels:
+        app: trips
     spec:
       containers:
         - name: trips
