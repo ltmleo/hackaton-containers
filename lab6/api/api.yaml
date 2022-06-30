@@ -10,7 +10,7 @@ metadata:
   namespace: api
 type: Opaque
 data:
-  SQL_SERVER: c3Fsc2VydmVyb2xxODQwOC5kYXRhYmFzZS53aW5kb3dzLm5ldA==
+  SQL_SERVER: c3Fsc2VydmVyb2xxODQwOC1lYXN0dXMuZGF0YWJhc2Uud2luZG93cy5uZXQ=
   SQL_PASSWORD: U1FMQWRtaW5AMTIz
   SQL_USER: c3FsYWRtaW5vTHE4NDA4
 
