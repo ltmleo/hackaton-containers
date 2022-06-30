@@ -5,6 +5,7 @@ metadata:
   name: trips
   labels:
     app: trips
+    role: api
 spec:
   replicas: 1
   selector:
@@ -14,6 +15,7 @@ spec:
     metadata:
       labels:
         app: trips
+        role: api
     spec:
       containers:
         - name: trips
