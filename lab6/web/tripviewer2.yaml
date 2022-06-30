@@ -27,6 +27,8 @@ spec:
               value: http://userprofile.api
             - name: TRIPS_API_ENDPOINT
               value: http://trips.api
+            - name: WCF_ENDPOINT
+              value: http://wcf
           securityContext:
             allowPrivilegeEscalation: false
       nodeSelector:
