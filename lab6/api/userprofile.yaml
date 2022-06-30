@@ -17,8 +17,6 @@ spec:
         app: userprofile
         role: api
     spec:
-      securityContext:
-        allowPrivilegeEscalation: false
       containers:
         - name: userprofile
           image: registryolq8408.azurecr.io/tripinsights/userprofile:1.0
@@ -40,6 +38,8 @@ spec:
                 secretKeyRef:
                   name: db-secret
                   key: SQL_USER
+          securityContext:
+            allowPrivilegeEscalation: false
 ---
 apiVersion: v1
 kind: Service

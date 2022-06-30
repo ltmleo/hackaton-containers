@@ -17,8 +17,6 @@ spec:
         app: user-java
         role: api
     spec:
-      securityContext:
-        allowPrivilegeEscalation: false
       containers:
         - name: user-java
           image: registryolq8408.azurecr.io/tripinsights/user-java:1.0
@@ -40,6 +38,8 @@ spec:
                 secretKeyRef:
                   name: db-secret
                   key: SQL_USER
+          securityContext:
+            allowPrivilegeEscalation: false
 ---
 apiVersion: v1
 kind: Service
