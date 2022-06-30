@@ -28,7 +28,7 @@ spec:
             - name: TRIPS_API_ENDPOINT
               value: http://trips.api
             - name: WCF_ENDPOINT
-              value: http://wcf
+              value: http://wcfservice
           securityContext:
             allowPrivilegeEscalation: false
       nodeSelector:
@@ -40,7 +40,7 @@ metadata:
   name: tripviewer
   namespace: web
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: tripviewer
   ports:
