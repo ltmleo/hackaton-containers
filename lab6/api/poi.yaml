@@ -4,6 +4,7 @@ metadata:
   namespace: api
   name: poi
   labels:
+    version: v1
     app: poi
     role: api
 spec:
@@ -84,7 +85,7 @@ metadata:
   namespace: api
 spec:
   gateways:
-  - general/istio-system
+  - istio-system/general
   hosts:
   - "*"
   http:
