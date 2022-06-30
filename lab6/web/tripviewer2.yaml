@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tripviewer
+  namespace: web
+  labels:
+    app: tripviewer
+    role: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tripviewer
+  template:
+    metadata:
+      labels:
+        app: tripviewer
+        role: web
+    spec:
+      containers:
+        - name: tripviewer
+          image: registryolq8408.azurecr.io/tripinsights/tripviewer2:1.0
+          ports:
+            - containerPort: 80
+          env:
+            - name: USERPROFILE_API_ENDPOINT
+              value: http://userprofile.api
+            - name: TRIPS_API_ENDPOINT
+              value: http://trips.api
+          securityContext:
+            allowPrivilegeEscalation: false
+      nodeSelector:
+        kubernetes.io/os: windows
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tripviewer
+  namespace: web
+spec:
+  type: ClusterIP
+  selector:
+    app: tripviewer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
