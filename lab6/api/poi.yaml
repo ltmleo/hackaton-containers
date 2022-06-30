@@ -27,17 +27,17 @@ spec:
             - name: SQL_SERVER
               valueFrom:
                 secretKeyRef:
-                  name: db-secret-vault
+                  name: db-secret
                   key: SQL_SERVER
             - name: SQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: db-secret-vault
+                  name: db-secret
                   key: SQL_PASSWORD
             - name: SQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: db-secret-vault
+                  name: db-secret
                   key: SQL_USER
           volumeMounts:
           - name: secrets-store-inline
