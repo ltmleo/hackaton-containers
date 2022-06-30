@@ -13,5 +13,21 @@ data:
   SQL_SERVER: c3Fsc2VydmVyb2xxODQwOC5kYXRhYmFzZS53aW5kb3dzLm5ldA==
   SQL_PASSWORD: U1FMQWRtaW5AMTIz
   SQL_USER: c3FsYWRtaW5vTHE4NDA4
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: general
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - '*'
+    port:
+      name: http2
+      number: 80
+      protocol: HTTP
 
 

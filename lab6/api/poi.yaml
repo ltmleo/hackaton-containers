@@ -56,3 +56,42 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  generation: 1
+  labels:
+    app: poi
+  name: poi
+  namespace: api
+spec:
+  host: poi
+  subsets:
+  - labels:
+      version: v1
+    name: v1
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  labels:
+    app: poi
+  name: poi
+  namespace: api
+spec:
+  gateways:
+  - general-ssl.istio-system.svc.cluster.local
+  hosts:
+  - "*"
+  http:
+  - match:
+    - uri:
+        prefix: /api/poi
+    route:
+    - destination:
+        host: poi
+        subset: v1
