@@ -17,10 +17,6 @@ spec:
       containers:
         - name: poi
           image: registryolq8408.azurecr.io/tripinsights/poi:1.0
-          resources:
-              limits:
-                cpu: 500m
-                memory: 1Gi
           ports:
             - containerPort: 80
           env:
