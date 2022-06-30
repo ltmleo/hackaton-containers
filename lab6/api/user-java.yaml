@@ -66,7 +66,7 @@ metadata:
   labels:
     app: user-java
   name: user-java
-  namespace: user-java
+  namespace: api
 spec:
   host: user-java
   subsets:
